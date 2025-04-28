@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     tools {
-        nodejs "node"
+        nodejs "node"  // Make sure this matches your tool name in Jenkins
     }
     
     stages {
@@ -14,13 +14,13 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install'  // Use 'bat' instead of 'sh' for Windows
             }
         }
         
         stage('Build') {
             steps {
-                sh 'npm run build'
+                bat 'npm run build'  // Use 'bat' instead of 'sh' for Windows
             }
         }
         
