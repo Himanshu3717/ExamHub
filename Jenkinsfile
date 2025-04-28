@@ -5,18 +5,6 @@ pipeline {
         nodejs "node"
     }
     
-    environment {
-        // Define credentials that will be loaded during the pipeline
-        DATABASE_URL = credentials('database-url')
-        NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = credentials('clerk-publishable-key')
-        CLERK_SECRET_KEY = credentials('clerk-secret-key')
-        NEXT_PUBLIC_CLERK_SIGN_IN_URL = '/sign-in'
-        NEXT_PUBLIC_CLERK_SIGN_UP_URL = '/sign-up'
-        NEXT_PUBLIC_EMAILJS_SERVICE_ID = credentials('emailjs-service-id')
-        NEXT_PUBLIC_EMAILJS_TEMPLATE_ID = credentials('emailjs-template-id')
-        NEXT_PUBLIC_EMAILJS_PUBLIC_KEY = credentials('emailjs-public-key')
-    }
-    
     stages {
         stage('Checkout') {
             steps {
@@ -32,19 +20,17 @@ pipeline {
         
         stage('Build') {
             steps {
-                // Make sure environment variables are available during build
-                withEnv([
-                    "DATABASE_URL=${env.DATABASE_URL}",
-                    "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}",
-                    "CLERK_SECRET_KEY=${env.CLERK_SECRET_KEY}",
-                    "NEXT_PUBLIC_CLERK_SIGN_IN_URL=${env.NEXT_PUBLIC_CLERK_SIGN_IN_URL}",
-                    "NEXT_PUBLIC_CLERK_SIGN_UP_URL=${env.NEXT_PUBLIC_CLERK_SIGN_UP_URL}",
-                    "NEXT_PUBLIC_EMAILJS_SERVICE_ID=${env.NEXT_PUBLIC_EMAILJS_SERVICE_ID}",
-                    "NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=${env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID}",
-                    "NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=${env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY}"
-                ]) {
-                    bat 'npm run build'
-                }
+                bat '''
+                set DATABASE_URL=postgresql://neondb_owner:npg_w0ZH5QrYUfzJ@ep-empty-breeze-a49cwsto-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require
+                set NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_aW50ZW5zZS1idWxsZnJvZy0yNC5jbGVyay5hY2NvdW50cy5kZXYk
+                set CLERK_SECRET_KEY=sk_test_Z626nvMmALeSREy19H6946qQNjjDaNeK5dlLFLpLjG
+                set NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+                set NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+                set NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_t990zja
+                set NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=template_aybwglz
+                set NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=6rFa5l5roeEDZLibN
+                npm run build
+                '''
             }
         }
         
