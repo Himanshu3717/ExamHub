@@ -5,6 +5,10 @@ pipeline {
         nodejs "node"
     }
     
+    triggers {
+        githubPush() // Trigger on GitHub push events
+    }
+    
     stages {
         stage('Checkout') {
             steps {
