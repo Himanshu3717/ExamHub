@@ -2,7 +2,11 @@ pipeline {
     agent any
     
     tools {
-        nodejs "node"  // Make sure this matches your tool name in Jenkins
+        nodejs "node"
+    }
+    
+    environment {
+        DATABASE_URL = "postgresql://neondb_owner:npg_w0ZH5QrYUfzJ@ep-empty-breeze-a49cwsto-pooler.us-east-1.aws.neon.tech/neondb?sslmode=require" // Replace with your actual database URL
     }
     
     stages {
@@ -14,13 +18,13 @@ pipeline {
         
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'  // Use 'bat' instead of 'sh' for Windows
+                bat 'npm install'
             }
         }
         
         stage('Build') {
             steps {
-                bat 'npm run build'  // Use 'bat' instead of 'sh' for Windows
+                bat 'npm run build'
             }
         }
         
