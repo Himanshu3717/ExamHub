@@ -273,7 +273,7 @@ const ExamPage = () => {
               <MdOutlineKeyboardBackspace className="text-2xl text-gray-600 dark:text-gray-300" />
             </button>
             <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-              Exam List
+              Exam Lists
             </h1>
             {lastUpdated && (
               <span className="hidden text-sm text-gray-500 dark:text-gray-400 md:inline-block">
