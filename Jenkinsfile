@@ -1,27 +1,27 @@
 pipeline {
     agent any
-
+    
     tools {
         nodejs "node"
     }
-
+    
     triggers {
         githubPush() // Trigger on GitHub push events
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
             }
         }
-
+        
         stage('Install Dependencies') {
             steps {
                 bat 'npm install'
             }
         }
-
+        
         stage('Build') {
             steps {
                 bat '''
@@ -37,22 +37,14 @@ pipeline {
                 '''
             }
         }
-
-        stage('Docker Build') {
-            steps {
-                script {
-                    docker.build("examhub:23")
-                }
-            }
-        }
-
+        
         stage('Success') {
             steps {
-                echo 'Build and Docker image creation completed successfully!'
+                echo 'Build completed successfully!'
             }
         }
     }
-
+    
     post {
         failure {
             echo 'The build failed! Please check the logs for more information.'
